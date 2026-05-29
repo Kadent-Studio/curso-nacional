@@ -43,7 +43,7 @@ export default async function Home() {
 function Hero() {
   return (
     <section className="border-b border-ink/10">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 px-6 py-16 md:grid-cols-[1.1fr_1fr] md:gap-16 md:px-10 md:py-24">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 px-6 pb-16 pt-2 md:grid-cols-[1.1fr_1fr] md:gap-16 md:px-10 md:pb-24 md:pt-4">
         <div className="rise flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-3">

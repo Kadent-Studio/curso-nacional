@@ -1,4 +1,5 @@
-import { renderToBuffer } from "@react-pdf/renderer";
+import { createElement, type ReactElement } from "react";
+import { renderToBuffer, type DocumentProps } from "@react-pdf/renderer";
 import QRCode from "qrcode";
 import { NextResponse } from "next/server";
 
@@ -48,8 +49,8 @@ export async function GET(
   });
 
   const buffer = await renderToBuffer(
-    <TicketPdf
-      data={{
+    createElement(TicketPdf, {
+      data: {
         code: reservation.code,
         buyerFullName: `${reservation.buyerFirstName} ${reservation.buyerLastName}`,
         buyerWhatsapp: reservation.buyerWhatsapp,
@@ -63,8 +64,8 @@ export async function GET(
         qrDataUrl,
         verifyUrl,
         issuedAt: new Date(),
-      }}
-    />,
+      },
+    }) as ReactElement<DocumentProps>,
   );
 
   return new NextResponse(new Uint8Array(buffer), {

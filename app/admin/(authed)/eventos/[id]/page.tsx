@@ -82,7 +82,12 @@ export default async function EventEditPage({ params }: { params: Params }) {
           <p className="mt-2 text-xs text-mute">/{event.slug} · {event.status}</p>
         </div>
         {isAdmin && event.status !== "ARCHIVED" && (
-          <form action={archiveEventAction}>
+          <form
+            action={async (formData: FormData) => {
+              "use server";
+              await archiveEventAction(undefined, formData);
+            }}
+          >
             <input type="hidden" name="id" value={event.id} />
             <button type="submit" className="btn-ghost">Archivar</button>
           </form>

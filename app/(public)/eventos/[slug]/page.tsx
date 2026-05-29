@@ -27,7 +27,7 @@ export default async function EventDetailPage({ params }: { params: Params }) {
 
   return (
     <article>
-      <section className="border-b border-ink/10 py-14 md:py-20">
+      <section className="border-b border-ink/10 pb-14 pt-2 md:pb-20 md:pt-4">
         <div className="mx-auto max-w-[1280px] px-6 md:px-10">
           <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-mute">
             <Link href="/eventos" className="editorial-link">Programa</Link>

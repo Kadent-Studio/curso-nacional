@@ -65,7 +65,7 @@ export default async function ReservationPage({
   const isAwaitingPayment = reservation.status === "PENDING_PAYMENT";
 
   return (
-    <div className="border-b border-ink/10 py-12 md:py-20">
+    <div className="border-b border-ink/10 pb-12 pt-2 md:pb-20 md:pt-4">
       <div className="mx-auto max-w-[1100px] px-6 md:px-10">
         {nuevo === "1" && (
           <div className="mb-8 border border-ink bg-paper-deep p-4">

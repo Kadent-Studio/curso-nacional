@@ -11,7 +11,7 @@ async function lookupAction(formData: FormData) {
 
 export default function ReservasLookup() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="pb-20 pt-4 md:pb-28 md:pt-6">
       <div className="mx-auto max-w-[640px] px-6 md:px-10">
         <span className="program-tag">Mi inscripción</span>
         <h1 className="font-display mt-3 text-5xl leading-[0.98]">Consulta tu código.</h1>

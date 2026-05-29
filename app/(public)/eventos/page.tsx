@@ -17,7 +17,7 @@ export default async function EventosPage() {
 
   return (
     <div>
-      <section className="border-b border-ink/10 py-16 md:py-24">
+      <section className="border-b border-ink/10 pb-16 pt-2 md:pb-24 md:pt-4">
         <div className="mx-auto max-w-[1280px] px-6 md:px-10">
           <SectionHeading
             number="—"
