@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { checkBotId } from 'botid/server';
 import { z } from "zod";
 import { createReservation, attachReceipt } from "@/src/lib/reservations";
 import { storeUpload } from "@/src/lib/uploads";
@@ -56,6 +57,12 @@ export async function createReservationAction(
   _prevState: CreateReservationState | undefined,
   formData: FormData,
 ): Promise<CreateReservationState> {
+  const botCheck = await checkBotId();
+
+  if (botCheck.isBot) {
+    return { ok: false, error: "No se pudo procesar tu reserva. Intenta de nuevo." };
+  }
+
   const raw = Object.fromEntries(formData.entries());
   const parsed = createSchema.safeParse(raw);
   if (!parsed.success) {
@@ -98,6 +105,12 @@ export async function uploadReceiptAction(
   _prevState: UploadReceiptState | undefined,
   formData: FormData,
 ): Promise<UploadReceiptState> {
+  const botCheck = await checkBotId();
+
+  if (botCheck.isBot) {
+    return { ok: false, error: "No se pudo procesar tu reserva. Intenta de nuevo." };
+  }
+
   const parsed = receiptSchema.safeParse({
     reservationId: formData.get("reservationId"),
   });

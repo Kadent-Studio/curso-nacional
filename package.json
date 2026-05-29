@@ -21,6 +21,7 @@
     "@react-pdf/renderer": "^4.5.1",
     "@vercel/blob": "^2.4.0",
     "bcryptjs": "^3.0.3",
+    "botid": "^1.5.11",
     "motion": "^12.40.0",
     "next": "16.2.6",
     "qrcode": "^1.5.4",
