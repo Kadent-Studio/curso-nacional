@@ -33,7 +33,7 @@ export default async function LoginPage({
           <h1 className="font-display mt-2 text-4xl leading-[1] md:text-5xl">Entra a operar.</h1>
           <p className="mt-3 text-sm text-ink-soft">
             Acceso solo para usuarios cargados desde el seed. Si olvidaste la
-            contraseña, pídela a quien administra el demo.
+            contraseña, hay que hacer seed de nuevo.
           </p>
         </div>
 
