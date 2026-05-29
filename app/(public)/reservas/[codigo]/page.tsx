@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 import { getReservationByCode, getActivePaymentMethods } from "@/src/lib/public-data";
 import { ReceiptUpload } from "@/src/components/receipt-upload";
 import { Countdown } from "@/src/components/countdown";
-import { formatDateTime, formatUsd, formatBs, formatUsdt } from "@/src/lib/format";
+import { formatDateTime, formatDaysUntil, formatUsd, formatBs, formatUsdt } from "@/src/lib/format";
 import { expireStale } from "@/src/lib/reservations";
 
 type Params = Promise<{ codigo: string }>;
@@ -102,7 +102,13 @@ export default async function ReservationPage({
                 <dt className="text-mute">Curso / fecha</dt>
                 <dd className="text-ink">
                   {reservation.items.map((it) => (
-                    <div key={it.id}>{formatDateTime(it.occurrence.startsAt)} · {it.priceVariant.name} × {it.quantity}</div>
+                    <div key={it.id}>
+                      {formatDateTime(it.occurrence.startsAt)}
+                      <span className="ml-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-deep">
+                        {formatDaysUntil(it.occurrence.startsAt)}
+                      </span>
+                      <div className="text-xs text-mute">{it.priceVariant.name} × {it.quantity}</div>
+                    </div>
                   ))}
                 </dd>
                 <dt className="text-mute">Método de pago</dt>

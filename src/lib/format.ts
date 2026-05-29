@@ -57,3 +57,31 @@ export function formatDateTime(value: Date): string {
 export function formatReservationCode(sequence: number): string {
   return `CN-${sequence.toString().padStart(6, "0")}`;
 }
+
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+function startOfDay(d: Date): Date {
+  const x = new Date(d);
+  x.setHours(0, 0, 0, 0);
+  return x;
+}
+
+export function daysUntil(date: Date, now: Date = new Date()): number {
+  return Math.round((startOfDay(date).getTime() - startOfDay(now).getTime()) / MS_PER_DAY);
+}
+
+export function formatDaysUntil(date: Date, now: Date = new Date()): string {
+  const days = daysUntil(date, now);
+  if (days < 0) {
+    const past = Math.abs(days);
+    if (past === 1) return "ayer";
+    return `hace ${past} días`;
+  }
+  if (days === 0) return "hoy";
+  if (days === 1) return "mañana";
+  if (days < 7) return `en ${days} días`;
+  if (days < 14) return "en 1 semana";
+  if (days < 30) return `en ${Math.floor(days / 7)} semanas`;
+  if (days < 60) return "en 1 mes";
+  return `en ${Math.floor(days / 30)} meses`;
+}

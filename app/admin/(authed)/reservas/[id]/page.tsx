@@ -4,7 +4,7 @@ import { requireUser } from "@/src/lib/auth";
 import { getReservationAdmin } from "@/src/lib/admin-data";
 import { ReservationActions } from "@/src/components/admin/reservation-actions";
 import { StatusPill } from "@/src/components/admin/status-pill";
-import { formatDateTime, formatUsd, formatBs, formatUsdt } from "@/src/lib/format";
+import { formatDateTime, formatDaysUntil, formatUsd, formatBs, formatUsdt } from "@/src/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -60,7 +60,12 @@ export default async function ReservationDetailAdmin({ params }: { params: Param
             <ul className="space-y-2 text-sm">
               {r.items.map((it) => (
                 <li key={it.id} className="border-l-2 border-ink/30 pl-3">
-                  <p className="font-display">{formatDateTime(it.occurrence.startsAt)}</p>
+                  <p className="font-display">
+                    {formatDateTime(it.occurrence.startsAt)}
+                    <span className="ml-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-deep">
+                      {formatDaysUntil(it.occurrence.startsAt)}
+                    </span>
+                  </p>
                   <p className="text-xs text-mute">
                     {it.priceVariant.name} · {it.quantity} cupo(s) · {formatUsd(Number(it.unitPriceUsd))} c/u
                   </p>

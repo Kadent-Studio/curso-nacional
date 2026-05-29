@@ -4,7 +4,7 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 import { getEventBySlug, getCurrentExchangeRate, getActivePaymentMethods } from "@/src/lib/public-data";
 import { ReservationForm } from "@/src/components/reservation-form";
-import { formatDateTime, formatUsd } from "@/src/lib/format";
+import { formatDateTime, formatDaysUntil, formatUsd } from "@/src/lib/format";
 
 type Params = Promise<{ slug: string }>;
 
@@ -71,9 +71,12 @@ export default async function EventDetailPage({ params }: { params: Params }) {
                     <li className="text-mute">Por anunciar</li>
                   )}
                   {event.occurrences.map((o) => (
-                    <li key={o.id}>
-                      {formatDateTime(o.startsAt)}
-                      <span className="ml-2 text-xs font-semibold uppercase tracking-[0.18em] text-mute">
+                    <li key={o.id} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <span>{formatDateTime(o.startsAt)}</span>
+                      <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand-deep">
+                        {formatDaysUntil(o.startsAt)}
+                      </span>
+                      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-mute">
                         {o.available === 0
                           ? "agotada"
                           : `${o.available} ${o.available === 1 ? "cupo" : "cupos"}`}
