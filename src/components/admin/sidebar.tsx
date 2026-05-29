@@ -21,7 +21,17 @@ function NavLinkPending() {
   return <Spinner size={12} className="text-current opacity-70" />;
 }
 
-function NavLink({ href, label, active }: { href: string; label: string; active: boolean }) {
+function NavLink({
+  href,
+  label,
+  active,
+  layoutId,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+  layoutId: string;
+}) {
   return (
     <Link
       href={href}
@@ -32,7 +42,7 @@ function NavLink({ href, label, active }: { href: string; label: string; active:
     >
       {active && (
         <motion.span
-          layoutId="admin-nav-active"
+          layoutId={layoutId}
           className="absolute inset-0 -z-0 rounded-sm bg-ink"
           transition={{ type: "spring", duration: 0.4, bounce: 0.18 }}
         />
@@ -59,11 +69,20 @@ function LogoutButton() {
   );
 }
 
-export function AdminSidebar({ name, role }: { name: string; role: "ADMIN" | "OPERATOR" }) {
+export function AdminSidebar({
+  name,
+  role,
+  instanceId = "desktop",
+}: {
+  name: string;
+  role: "ADMIN" | "OPERATOR";
+  instanceId?: string;
+}) {
   const pathname = usePathname();
   const reduce = useReducedMotion();
 
   const items = NAV.filter((i) => !i.adminOnly || role === "ADMIN");
+  const layoutId = `admin-nav-active-${instanceId}`;
 
   // If reduced motion, render simpler version without layoutId pill animation
   if (reduce) {
@@ -115,7 +134,7 @@ export function AdminSidebar({ name, role }: { name: string; role: "ADMIN" | "OP
                 animate={{ opacity: 1, transform: "translateX(0px)" }}
                 transition={{ delay: i * 0.04, duration: 0.32, ease: [0.23, 1, 0.32, 1] }}
               >
-                <NavLink href={item.href} label={item.label} active={active} />
+                <NavLink href={item.href} label={item.label} active={active} layoutId={layoutId} />
               </motion.li>
             );
           })}
