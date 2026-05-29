@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { randomBytes } from "node:crypto";
+import { put } from "@vercel/blob";
 import { prisma } from "@/src/lib/db";
 import type { UploadKind } from "@prisma/client";
 
@@ -48,20 +49,43 @@ export function validateUpload(kind: UploadKind, file: File): string | null {
   return null;
 }
 
+async function uploadToBlob(
+  subdir: string,
+  filename: string,
+  buffer: Buffer,
+  contentType: string,
+): Promise<string> {
+  const result = await put(`${subdir}/${filename}`, buffer, {
+    access: "public",
+    contentType,
+    addRandomSuffix: false,
+  });
+  return result.url;
+}
+
+async function uploadToDisk(
+  subdir: string,
+  filename: string,
+  buffer: Buffer,
+): Promise<string> {
+  const dir = path.join(process.cwd(), "public", "uploads", subdir);
+  await mkdir(dir, { recursive: true });
+  const fullPath = path.join(dir, filename);
+  await writeFile(fullPath, buffer);
+  return `/uploads/${subdir}/${filename}`;
+}
+
 export async function storeUpload({ kind, file }: UploadInput): Promise<StoredUpload> {
   const error = validateUpload(kind, file);
   if (error) throw new Error(error);
 
   const subdir = KIND_DIRS[kind];
-  const dir = path.join(process.cwd(), "public", "uploads", subdir);
-  await mkdir(dir, { recursive: true });
-
   const filename = `${Date.now()}-${randomBytes(6).toString("hex")}.${extFromMime(file.type)}`;
-  const fullPath = path.join(dir, filename);
   const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(fullPath, buffer);
 
-  const publicUrl = `/uploads/${subdir}/${filename}`;
+  const publicUrl = process.env.BLOB_READ_WRITE_TOKEN
+    ? await uploadToBlob(subdir, filename, buffer, file.type)
+    : await uploadToDisk(subdir, filename, buffer);
 
   const record = await prisma.uploadedFile.create({
     data: {

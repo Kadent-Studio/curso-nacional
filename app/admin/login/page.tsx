@@ -8,9 +8,23 @@ export const dynamic = "force-dynamic";
 
 export const metadata = { title: "Entrar — Curso Nacional Admin" };
 
-export default async function LoginPage() {
+type SearchParams = Promise<{ next?: string }>;
+
+function safeNext(value: string | undefined): string {
+  if (!value) return "/admin";
+  if (!value.startsWith("/") || value.startsWith("//")) return "/admin";
+  return value;
+}
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const { next } = await searchParams;
+  const target = safeNext(next);
   const user = await getCurrentUser();
-  if (user) redirect("/admin");
+  if (user) redirect(target);
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-paper px-6 py-16">
@@ -28,7 +42,7 @@ export default async function LoginPage() {
         </div>
 
         <div className="mt-10 border border-ink bg-paper p-6 md:p-7 shadow-[8px_8px_0_var(--ink)]">
-          <LoginForm />
+          <LoginForm next={target} />
         </div>
 
         <Link

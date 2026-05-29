@@ -174,6 +174,30 @@ export async function cancelReservation(reservationId: string, internalNote?: st
   });
 }
 
+export async function checkInReservation(reservationId: string): Promise<Reservation> {
+  return prisma.$transaction(async (tx) => {
+    const reservation = await tx.reservation.findUnique({
+      where: { id: reservationId },
+      include: { items: true },
+    });
+    if (!reservation) throw new Error("RESERVATION_NOT_FOUND");
+    if (reservation.status !== "CONFIRMED") throw new Error("RESERVATION_NOT_CONFIRMED");
+
+    const totalQty = reservation.items.reduce((acc, it) => acc + it.quantity, 0);
+    if (reservation.checkInsCount >= totalQty) throw new Error("TICKET_FULLY_USED");
+
+    const now = new Date();
+    return tx.reservation.update({
+      where: { id: reservation.id },
+      data: {
+        checkInsCount: { increment: 1 },
+        firstCheckInAt: reservation.firstCheckInAt ?? now,
+        lastCheckInAt: now,
+      },
+    });
+  });
+}
+
 export async function extendExpiration(reservationId: string, addMinutes: number): Promise<Reservation> {
   const reservation = await prisma.reservation.findUnique({ where: { id: reservationId } });
   if (!reservation) throw new Error("RESERVATION_NOT_FOUND");

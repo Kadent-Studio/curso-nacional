@@ -7,6 +7,7 @@ import { ReceiptUpload } from "@/src/components/receipt-upload";
 import { Countdown } from "@/src/components/countdown";
 import { formatDateTime, formatDaysUntil, formatUsd, formatBs, formatUsdt } from "@/src/lib/format";
 import { expireStale } from "@/src/lib/reservations";
+import { whatsappLink } from "@/src/lib/contact";
 
 type Params = Promise<{ codigo: string }>;
 type SearchParams = Promise<{ nuevo?: string }>;
@@ -56,12 +57,12 @@ export default async function ReservationPage({
     totalQty === 1
       ? `1 entrada ${variantLabel}`
       : `${totalQty} entradas ${variantLabel}`;
-  const whatsappMessage = encodeURIComponent(
+  const whatsappHref = whatsappLink(
     `Hola, soy ${reservation.buyerFirstName}. Acabo de inscribirme (${reservation.code}) a "${reservation.event.title}" — ${ticketsLabel}. Te envío el comprobante.`,
   );
-  const whatsappHref = `https://wa.me/584140000000?text=${whatsappMessage}`;
 
   const isOpen = reservation.status === "PENDING_PAYMENT" || reservation.status === "PAYMENT_REVIEW";
+  const isAwaitingPayment = reservation.status === "PENDING_PAYMENT";
 
   return (
     <div className="border-b border-ink/10 py-12 md:py-20">
@@ -167,13 +168,39 @@ export default async function ReservationPage({
           </div>
 
           <aside className="space-y-5">
-            {isOpen && (
+            {isAwaitingPayment && (
               <div className="border border-ink bg-paper p-5">
                 <p className="eyebrow mb-2">Tiempo restante</p>
                 <Countdown to={reservation.expiresAt.toISOString()} />
                 <p className="mt-2 text-xs text-mute">
                   Hasta {formatDateTime(reservation.expiresAt)}
                 </p>
+              </div>
+            )}
+            {reservation.status === "PAYMENT_REVIEW" && (
+              <div className="border border-brand bg-brand/10 p-5">
+                <p className="eyebrow mb-2">Pago recibido</p>
+                <p className="text-sm text-ink">
+                  Tu cupo queda asegurado mientras validamos el comprobante.
+                  Ya no corre el tiempo.
+                </p>
+              </div>
+            )}
+
+            {reservation.status === "CONFIRMED" && (
+              <div className="border-2 border-ink bg-paper-deep p-5">
+                <p className="eyebrow mb-2">Tu boleto</p>
+                <p className="text-sm text-ink-soft mb-3">
+                  Descarga, imprime o guarda en tu teléfono. Lo escanearemos en la entrada.
+                </p>
+                <a
+                  href={`/reservas/${encodeURIComponent(reservation.code)}/boleto`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-primary w-full justify-center"
+                >
+                  Descargar boleto PDF →
+                </a>
               </div>
             )}
 

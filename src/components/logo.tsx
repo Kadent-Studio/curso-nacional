@@ -19,41 +19,14 @@ type LogoProps = {
 export function Logo({ size = "md", className = "" }: LogoProps) {
   const px = PX[size];
   return (
-    <svg
-      viewBox="0 0 100 100"
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/assets/logo.png"
       width={px}
       height={px}
-      role="img"
-      aria-label="Curso Nacional"
+      alt="Curso Nacional"
       className={`shrink-0 ${className}`}
-    >
-      <circle cx="50" cy="50" r="50" fill="var(--brand)" />
-      <text
-        x="50"
-        y="44"
-        textAnchor="middle"
-        textLength="64"
-        lengthAdjust="spacingAndGlyphs"
-        fontFamily="var(--font-bricolage), 'Arial Black', Impact, sans-serif"
-        fontWeight={800}
-        fontSize={24}
-        fill="var(--ink)"
-      >
-        CURSO
-      </text>
-      <text
-        x="50"
-        y="71"
-        textAnchor="middle"
-        textLength="86"
-        lengthAdjust="spacingAndGlyphs"
-        fontFamily="var(--font-bricolage), 'Arial Black', Impact, sans-serif"
-        fontWeight={800}
-        fontSize={24}
-        fill="var(--ink)"
-      >
-        NACIONAL
-      </text>
-    </svg>
+      style={{ width: px, height: px }}
+    />
   );
 }

@@ -6,10 +6,11 @@ import { Spinner } from "@/src/components/admin/skeleton";
 
 const initial: LoginState = undefined;
 
-export function LoginForm() {
+export function LoginForm({ next }: { next?: string }) {
   const [state, action, pending] = useActionState(signInAction, initial);
   return (
     <form action={action} className="space-y-5">
+      {next && <input type="hidden" name="next" value={next} />}
       <label>
         <span className="label-text">Email</span>
         <input type="email" name="email" required autoComplete="email" autoFocus />

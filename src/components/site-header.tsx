@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/src/components/logo";
 
@@ -10,8 +13,24 @@ const NAV = [
 ];
 
 export function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="border-b border-ink/15 bg-paper/85 backdrop-blur supports-[backdrop-filter]:bg-paper/75 sticky top-0 z-30">
+    <header
+      style={{ isolation: "isolate" }}
+      className={`fixed inset-x-0 top-0 z-40 bg-paper transition-[border-color,box-shadow] duration-300 ease-out ${
+        scrolled
+          ? "border-b border-ink/15 shadow-[0_4px_24px_-12px_rgba(11,11,11,0.18)]"
+          : "border-b border-transparent"
+      }`}
+    >
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 py-4 md:px-10">
         <Link href="/" className="flex items-center gap-3">
           <Logo size="md" />

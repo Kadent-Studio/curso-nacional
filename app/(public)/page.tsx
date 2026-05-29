@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getUpcomingEvents } from "@/src/lib/public-data";
+import { whatsappLink } from "@/src/lib/contact";
 import { EventCard } from "@/src/components/event-card";
 import { Marquee } from "@/src/components/marquee";
 import { SectionHeading } from "@/src/components/section-heading";
@@ -68,7 +69,7 @@ function Hero() {
               <span aria-hidden>→</span>
             </Link>
             <a
-              href="https://wa.me/584140000000?text=Hola%2C%20quiero%20información%20de%20Curso%20Nacional"
+              href={whatsappLink("Hola, quiero información de Curso Nacional")}
               target="_blank"
               rel="noreferrer"
               className="btn-wa"
@@ -298,7 +299,7 @@ function DocumentalSection() {
                 Reservar entrada →
               </Link>
               <a
-                href="https://wa.me/584140000000?text=Quiero%20información%20del%20documental"
+                href={whatsappLink("Quiero información del documental")}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-ghost"
@@ -356,7 +357,7 @@ function GuidesSection() {
             intro="Las mismas clases, pero impresas y subrayadas a propósito. Para leer en el bus, en la cola del banco o en la mesa de la cocina."
           />
           <a
-            href="https://wa.me/584140000000?text=Quiero%20pedir%20una%20guía%20impresa"
+            href={whatsappLink("Quiero pedir una guía impresa")}
             target="_blank"
             rel="noreferrer"
             className="btn-wa self-start md:self-end"
@@ -394,8 +395,14 @@ function BioSection() {
       <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_1.3fr]">
           <Reveal className="relative" y={20}>
-            <div className="aspect-[4/5] w-full border border-ink bg-paper-deep shadow-[8px_8px_0_var(--ink)]" />
-            <div className="absolute -bottom-4 right-4 stamp bg-paper">Foto · placeholder</div>
+            <div className="aspect-[4/5] w-full overflow-hidden border border-ink bg-paper-deep shadow-[8px_8px_0_var(--ink)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/about-img.avif"
+                alt="Curso Nacional · quien está detrás"
+                className="h-full w-full object-cover"
+              />
+            </div>
           </Reveal>
           <Reveal y={20} delay={0.08}>
             <SectionHeading
@@ -404,18 +411,20 @@ function BioSection() {
               title="No es magia. Es entrenamiento."
             />
             <p className="dropcap mt-8 text-lg leading-relaxed text-ink-soft">
-              Curso Nacional nació en un grupo de WhatsApp con doscientas
-              personas y una idea simple: explicar el dinero como se
-              explica en la mesa de la cocina, sin academicismos y sin
-              promesas raras. Hoy es una escuela permanente, con cursos
-              cortos, talleres presenciales en Caracas y una serie de
-              economía que ya pasaron miles de estudiantes.
+              Curso Nacional nació en 2020 de la mano de Gabriel Méndez
+              —periodista y emprendedor venezolano— para enseñar lo que
+              la academia no cuenta: cómo se monta, se promueve y se
+              hace crecer un negocio dentro del país. Educación
+              económica práctica, sin academicismos, para quien quiere
+              construir algo propio.
             </p>
             <p className="mt-5 text-base leading-relaxed text-ink-soft">
-              No vendemos mentalidad de millonario. Vendemos disciplina,
-              criterio y conversación. Si te interesa entender lo que
-              está pasando con el dinero y empezar a moverte distinto,
-              te metes y vemos.
+              Llevamos clases presenciales a cines, teatros y
+              universidades de toda Venezuela; talleres por WhatsApp y
+              contenidos gratuitos por Instagram. Vemos emprendimiento,
+              importaciones y publicidad digital con las herramientas
+              que se usan hoy —Binance, Canva, Alibaba, Amazon, PayPal—.
+              Todo aterrizado, todo aplicable.
             </p>
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-ink/20 pt-8">
               <Metric label="Estudiantes" value="3.2k+" />
@@ -624,7 +633,7 @@ function FinalCta() {
             Inscribirme ahora →
           </Link>
           <a
-            href="https://wa.me/584140000000?text=Hola%2C%20quiero%20información"
+            href={whatsappLink("Hola, quiero información")}
             target="_blank"
             rel="noreferrer"
             className="border border-paper/70 px-6 py-4 text-xs font-bold uppercase tracking-[0.22em] text-paper hover:bg-paper hover:text-ink"

@@ -142,6 +142,9 @@ model Reservation {
   confirmedAt       DateTime?
   rejectedAt        DateTime?
   cancelledAt       DateTime?
+  checkInsCount     Int                @default(0)
+  firstCheckInAt    DateTime?
+  lastCheckInAt     DateTime?
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 
