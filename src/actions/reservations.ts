@@ -13,7 +13,7 @@ const createSchema = z.object({
   eventId: z.string().min(1),
   occurrenceId: z.string().min(1),
   priceVariantId: z.string().min(1),
-  quantity: z.coerce.number().int().min(1).max(20),
+  quantity: z.coerce.number().int().min(1).max(10),
   paymentMethodKind: z.enum(["BS", "USDT"]),
   firstName: z.string().trim().min(1, "Nombre requerido").max(80),
   lastName: z.string().trim().min(1, "Apellido requerido").max(80),

@@ -47,8 +47,17 @@ export default async function ReservationPage({
   const methods = await getActivePaymentMethods();
   const method = methods.find((m) => m.kind === reservation.paymentMethodKind);
 
+  const totalQty = reservation.items.reduce((acc, it) => acc + it.quantity, 0);
+  const variantLabel =
+    reservation.items.length === 1
+      ? reservation.items[0].priceVariant.name
+      : "varias tarifas";
+  const ticketsLabel =
+    totalQty === 1
+      ? `1 entrada ${variantLabel}`
+      : `${totalQty} entradas ${variantLabel}`;
   const whatsappMessage = encodeURIComponent(
-    `Hola, soy ${reservation.buyerFirstName}. Acabo de inscribirme (${reservation.code}) al curso "${reservation.event.title}". Te envío el comprobante.`,
+    `Hola, soy ${reservation.buyerFirstName}. Acabo de inscribirme (${reservation.code}) a "${reservation.event.title}" — ${ticketsLabel}. Te envío el comprobante.`,
   );
   const whatsappHref = `https://wa.me/584140000000?text=${whatsappMessage}`;
 
