@@ -8,9 +8,7 @@ import { formatDateTime, formatDaysUntil, formatUsd, formatBs, formatUsdt } from
 
 export const dynamic = "force-dynamic";
 
-type Params = Promise<{ id: string }>;
-
-export default async function ReservationDetailAdmin({ params }: { params: Params }) {
+export default async function ReservationDetailAdmin({ params }: PageProps<"/admin/reservas/[id]">) {
   const { id } = await params;
   const user = await requireUser();
   const r = await getReservationAdmin(id);

@@ -16,7 +16,7 @@ function baseUrl(): string {
 
 export async function GET(
   _req: Request,
-  ctx: { params: Promise<{ codigo: string }> },
+  ctx: RouteContext<"/reservas/[codigo]/boleto">,
 ) {
   const { codigo } = await ctx.params;
   const reservation = await getReservationByCode(decodeURIComponent(codigo));

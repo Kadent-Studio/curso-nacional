@@ -11,8 +11,6 @@ import { archiveEventAction } from "@/src/actions/admin/events";
 
 export const dynamic = "force-dynamic";
 
-type Params = Promise<{ id: string }>;
-
 const EMPTY_EVENT = {
   slug: "",
   title: "",
@@ -27,7 +25,7 @@ const EMPTY_EVENT = {
   imagePath: "",
 };
 
-export default async function EventEditPage({ params }: { params: Params }) {
+export default async function EventEditPage({ params }: PageProps<"/admin/eventos/[id]">) {
   const { id } = await params;
   const user = await requireUser();
 

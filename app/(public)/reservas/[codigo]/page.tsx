@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
 import { getReservationByCode, getActivePaymentMethods } from "@/src/lib/public-data";
 import { ReceiptUpload } from "@/src/components/receipt-upload";
 import { Countdown } from "@/src/components/countdown";
@@ -9,8 +8,7 @@ import { formatDateTime, formatDaysUntil, formatUsd, formatBs, formatUsdt } from
 import { expireStale } from "@/src/lib/reservations";
 import { whatsappLink } from "@/src/lib/contact";
 
-type Params = Promise<{ codigo: string }>;
-type SearchParams = Promise<{ nuevo?: string }>;
+export const dynamic = "force-dynamic";
 
 const STATUS_LABEL = {
   PENDING_PAYMENT: "Esperando pago",
@@ -33,10 +31,7 @@ const STATUS_TONE: Record<keyof typeof STATUS_LABEL, string> = {
 export default async function ReservationPage({
   params,
   searchParams,
-}: {
-  params: Params;
-  searchParams: SearchParams;
-}) {
+}: PageProps<"/reservas/[codigo]">) {
   const { codigo } = await params;
   const { nuevo } = await searchParams;
 

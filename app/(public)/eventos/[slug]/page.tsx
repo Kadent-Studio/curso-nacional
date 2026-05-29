@@ -6,12 +6,10 @@ import { getEventBySlug, getCurrentExchangeRate, getActivePaymentMethods } from 
 import { ReservationForm } from "@/src/components/reservation-form";
 import { formatDateTime, formatDaysUntil, formatUsd } from "@/src/lib/format";
 
-type Params = Promise<{ slug: string }>;
-
 const TYPE_LABEL = { COURSE: "Curso", THEATER: "Taller presencial" } as const;
 const MODALITY_LABEL = { IN_PERSON: "Presencial · Caracas", ONLINE: "Por WhatsApp", HYBRID: "Híbrido" } as const;
 
-export default async function EventDetailPage({ params }: { params: Params }) {
+export default async function EventDetailPage({ params }: PageProps<"/eventos/[slug]">) {
   const { slug } = await params;
   const [event, rateRow, paymentMethods] = await Promise.all([
     getEventBySlug(slug),

@@ -19,12 +19,12 @@ const STATUSES: { value: ReservationStatus | ""; label: string }[] = [
   { value: "CANCELLED", label: "Canceladas" },
 ];
 
-type SearchParams = Promise<{
+type SearchParamsObj = {
   kind?: string;
   event?: string;
   status?: string;
   q?: string;
-}>;
+};
 
 function buildHref(base: { kind?: string; event?: string; status?: string; q?: string }) {
   const params = new URLSearchParams();
@@ -36,8 +36,8 @@ function buildHref(base: { kind?: string; event?: string; status?: string; q?: s
   return qs ? `/admin/reservas?${qs}` : "/admin/reservas";
 }
 
-export default async function ReservationsListPage({ searchParams }: { searchParams: SearchParams }) {
-  const sp = await searchParams;
+export default async function ReservationsListPage({ searchParams }: PageProps<"/admin/reservas">) {
+  const sp = (await searchParams) as SearchParamsObj;
   const kindParam = sp.kind === "COURSE" || sp.kind === "THEATER" ? sp.kind : "";
   const eventId = sp.event ?? "";
   const status = sp.status ?? "";

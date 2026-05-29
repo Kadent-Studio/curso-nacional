@@ -8,8 +8,6 @@ import { CheckInButton } from "@/src/components/check-in-button";
 
 export const dynamic = "force-dynamic";
 
-type Params = Promise<{ codigo: string }>;
-
 const STATUS_LABEL = {
   PENDING_PAYMENT: "Esperando pago",
   PAYMENT_REVIEW: "En revisión",
@@ -19,7 +17,7 @@ const STATUS_LABEL = {
   CANCELLED: "Cancelada",
 } as const;
 
-export default async function VerifyPage({ params }: { params: Params }) {
+export default async function VerifyPage({ params }: PageProps<"/admin/verificar/[codigo]">) {
   const { codigo } = await params;
   const admin = await getCurrentUser();
   const reservation = await getReservationByCode(decodeURIComponent(codigo));

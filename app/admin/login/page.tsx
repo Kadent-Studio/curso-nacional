@@ -8,8 +8,6 @@ export const dynamic = "force-dynamic";
 
 export const metadata = { title: "Entrar — Curso Nacional Admin" };
 
-type SearchParams = Promise<{ next?: string }>;
-
 function safeNext(value: string | undefined): string {
   if (!value) return "/admin";
   if (!value.startsWith("/") || value.startsWith("//")) return "/admin";
@@ -18,10 +16,8 @@ function safeNext(value: string | undefined): string {
 
 export default async function LoginPage({
   searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const { next } = await searchParams;
+}: PageProps<"/admin/login">) {
+  const { next } = (await searchParams) as { next?: string };
   const target = safeNext(next);
   const user = await getCurrentUser();
   if (user) redirect(target);
