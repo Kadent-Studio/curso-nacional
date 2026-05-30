@@ -14,5 +14,9 @@ initBotId({
       path: "/reservas/*",
       method: "POST",
     },
+    {
+      path: "/eventos/*",
+      method: "POST",
+    },
   ],
 });
